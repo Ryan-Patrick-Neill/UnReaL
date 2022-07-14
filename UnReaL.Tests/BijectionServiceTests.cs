@@ -3,7 +3,7 @@ using UnReaL.Repository;
 
 namespace UnReaL.Tests
 {
-    public class BijectionTests
+    public class BijectionServiceTests
     {
         private IBijectionService _service;
 

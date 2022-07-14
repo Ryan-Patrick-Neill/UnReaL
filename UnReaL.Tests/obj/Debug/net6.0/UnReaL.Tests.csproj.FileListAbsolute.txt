@@ -138,3 +138,4 @@ C:\Users\ry_neill\source\repos\UnReaL\UnReaL.Tests\obj\Debug\net6.0\refint\UnRea
 C:\Users\ry_neill\source\repos\UnReaL\UnReaL.Tests\obj\Debug\net6.0\UnReaL.Tests.pdb
 C:\Users\ry_neill\source\repos\UnReaL\UnReaL.Tests\obj\Debug\net6.0\UnReaL.Tests.genruntimeconfig.cache
 C:\Users\ry_neill\source\repos\UnReaL\UnReaL.Tests\obj\Debug\net6.0\ref\UnReaL.Tests.dll
+C:\Users\ry_neill\source\repos\UnReaL\UnReaL.Tests\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll
