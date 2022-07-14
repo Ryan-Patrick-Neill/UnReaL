@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using UnReaL.Models;
 using UnReaL.Repository;
 
@@ -57,6 +58,12 @@ namespace UnReaL.Controllers
             if (shortUrl == null) { return NotFound(); }
 
             return Redirect(shortUrl.Url);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
