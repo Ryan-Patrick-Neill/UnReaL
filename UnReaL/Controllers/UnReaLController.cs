@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UnReaL.Models;
 using UnReaL.Repository;
 
 namespace UnReaL.Controllers
@@ -20,9 +21,42 @@ namespace UnReaL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string originalURL)
+        public IActionResult Create(string url)
         {
-            throw new NotImplementedException();
+            var shortUrl = new ShortURL { Url = url };
+
+            TryValidateModel(shortUrl);
+            if (ModelState.IsValid)
+            {
+                var savedItemId = _appService.Save(shortUrl);
+
+                return RedirectToAction(actionName: nameof(Show), routeValues: new { id = savedItemId });
+            }
+
+            return View(shortUrl);
+        }
+
+        public IActionResult Show(int? id)
+        {
+            if (!id.HasValue) { return NotFound(); }
+
+            var shortUrl = _appService.GetById(id.Value);
+            if (shortUrl == null) { return NotFound(); }
+
+            ViewData["Path"] = _bijectionService.Encode(shortUrl.Id);
+
+            return View(shortUrl);
+        }
+
+        [HttpGet("/UnReaL/RedirectTo/{path:required}", Name = "UnReaL_RedirectTo")]
+        public IActionResult RedirectTo(string path)
+        {
+            if (path == null) { return NotFound(); }
+
+            var shortUrl = _appService.GetByPath(path);
+            if (shortUrl == null) { return NotFound(); }
+
+            return Redirect(shortUrl.Url);
         }
     }
 }

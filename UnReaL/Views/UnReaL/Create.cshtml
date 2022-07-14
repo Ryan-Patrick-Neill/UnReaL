@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ShortURL
 @{
+    ViewData["Title"] = "Create a new short URL";
 }
+
+<br />
+
+<div class="jumbotron">
+
+    <h1>UnReaL Shortener</h1>
+
+    <br />
+
+    <p>By entering in a URL in the text field below, we will create a short URL for you!</p>
+
+    <br />
+
+    <form asp-action="Create">
+        <div class="form-horizontal">
+            <div class="input-group input-group-lg">
+                <input asp-for="Url" class="form-control" placeholder="Paste the URL to be shorten..." />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Shorten URL</button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
