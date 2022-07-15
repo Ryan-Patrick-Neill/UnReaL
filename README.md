@@ -14,3 +14,12 @@ Context:
 The Solution:
 - Architect and build the world's first URL shortening service
 - You have a weekend (48 hours) to complete it
+
+Local Setup:
+============
+- Windows 10
+- Visual Studio 2022
+- Latest version of C#
+- Latest version of .NET Framework
+- Run with elevated permissions
+- Rebuild solution before running to regen static files
