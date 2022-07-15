@@ -10,6 +10,8 @@ namespace UnReaL.Controllers
         private readonly IUnReaLService _appService;
         private readonly IBijectionService _bijectionService;
 
+        private readonly CreateViewModel _createVM = new();
+
         public UnReaLController(IUnReaLService appService, IBijectionService bijectionService)
         {
             _appService = appService;
@@ -18,23 +20,24 @@ namespace UnReaL.Controllers
 
         public IActionResult Index() => RedirectToAction(actionName: nameof(Create));
 
-        public IActionResult Create() => View();
+        public IActionResult Create() => View(_createVM);
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string url)
+        public IActionResult Create(ShortURL shortUrl)
         {
-            var shortUrl = new ShortURL { Url = url };
+            _createVM.ShortURL = shortUrl;
+            _createVM.ErrorString = _createVM.ValidateInput(shortUrl.Url);
 
-            TryValidateModel(shortUrl);
-            if (ModelState.IsValid)
+            TryValidateModel(_createVM);
+            if (ModelState.IsValid && string.IsNullOrEmpty(_createVM.ErrorString))
             {
-                var savedItemId = _appService.Save(shortUrl);
+                var savedItemId = _appService.Save(_createVM.ShortURL);
 
                 return RedirectToAction(actionName: nameof(Show), routeValues: new { id = savedItemId });
             }
 
-            return View(shortUrl);
+            return View(_createVM);
         }
 
         public IActionResult Show(int? id)
@@ -49,8 +52,8 @@ namespace UnReaL.Controllers
             return View(shortUrl);
         }
 
-        [HttpGet("/UnReaL/RedirectTo/{path:required}", Name = "UnReaL_RedirectTo")]
-        public IActionResult RedirectTo(string path)
+        [HttpGet("/UnReaL/Go/{path:required}", Name = "UnReaL_Go")]
+        public IActionResult Go(string path)
         {
             if (path == null) { return NotFound(); }
 
@@ -61,9 +64,7 @@ namespace UnReaL.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() 
+            => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

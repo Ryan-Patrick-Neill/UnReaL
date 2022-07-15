@@ -1,4 +1,4 @@
-﻿@model ShortURL
+﻿@model CreateViewModel
 @{
     ViewData["Title"] = "Create a new short URL";
 }
@@ -16,10 +16,18 @@
     </div>
     <br />
 
+    @if (!string.IsNullOrEmpty(Model.ErrorString))
+    {
+        <div class="bg-light w-auto rounded-3">
+            <p style="color:darkred">@Model.ErrorString</p>
+        </div>
+        <br />
+    }
+
     <form asp-action="Create">
         <div class="form-horizontal">
             <div class="input-group input-group-lg">
-                <input asp-for="Url" class="form-control" placeholder="Paste the URL to be shorten..." />
+                <input asp-for="ShortURL.Url" class="form-control" placeholder="Paste the URL to be shorten..." />
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="submit">Shorten URL</button>
                 </span>
